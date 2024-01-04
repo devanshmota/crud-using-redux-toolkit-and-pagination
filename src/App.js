@@ -6,7 +6,7 @@ import allData from './data.json'
 
 function App() {
 
-  const {data} = useSelector((state) => state.data)
+  const { data } = useSelector((state) => state.data)
   const dispatch = useDispatch();
   let [formData, setFormData] = useState({
     email: '',
@@ -17,16 +17,16 @@ function App() {
   const recordsPerPage = 5
   const lastindex = currentPage * recordsPerPage
   const firstIndex = lastindex - recordsPerPage
-  const records = d
+  const records = data.slice(firstIndex, lastindex)
+  const npage = Math.ceil(data.length / recordsPerPage)
+  const numbers = [...Array(npage + 1).keys()].slice(1)
 
   useEffect(() => {
-      if (data.length === 0){
-        dispatch(setData(allData))
-      }
-      
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    if (data.length === 0) {
+      dispatch(setData(allData))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -36,22 +36,44 @@ function App() {
 
   const Submit = (e) => {
     e.preventDefault();
-    dispatch(setData([...data, formData]))
+    const newData = [...data]
+    const lastElement = (newData.slice(-1))
+    const id = (lastElement[0].id)
+    const newformdata = {...formData, id:id+1}
+    dispatch(setData([...data, newformdata]))
     setFormData({
       email: '',
       mobile_number: ''
     })
+    console.log(formData)
   }
 
-  const Delete = (index) => {
-    let newData = data.filter((_, i) => i !== index)
+  const Delete = (id) => {
+    let newData = data.filter((item) =>  item.id!== id)
     dispatch(setData(newData))
   }
 
-  const Edit = (index) => {
-    setFormData(data[index])
-    let newData = data.filter((_, i) => i !== index)
+  const Edit = (id) => {
+    const item = data.find((i) => i.id === id)
+    setFormData(item)
+    let newData = data.filter((item) => item.id !== id)
     dispatch(setData(newData))
+  }
+
+  const prevPage = () => {
+    if(currentPage !== 1){
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const nextPage = () => {
+    if(currentPage !== npage){
+      setCurrentPage(currentPage + 1)
+    }
+  }
+
+  const changeCpage = (id) => {
+    setCurrentPage(id)
   }
 
   return (
@@ -70,20 +92,31 @@ function App() {
             <th>Action</th>
           </tr>
           {
-            data?.map((item, index) => (
+            records?.map((item, index) => (
               <tr key={index}>
                 <td>{item.id}</td>
                 <td>{item.email}</td>
                 <td>{item.mobile_number}</td>
                 <td>
-                  <button onClick={() => Edit(index)} >Edit</button>
-                  <button onClick={() => Delete(index)} >Delete</button>
+                  <button onClick={() => Edit(item.id)} >Edit</button>
+                  <button onClick={() => Delete(item.id)} >Delete</button>
                 </td>
               </tr>
             ))
-         }
+          }
         </tbody>
       </table>
+      <nav>
+        <button href="#" onClick={prevPage}>Prev</button>
+        {
+          numbers.map((n, i) => (
+            <div key={i} className={`number_of_page ${currentPage === n ? 'active' : ''}`}>
+              <span onClick={() => changeCpage(n)} className='link'>{n}</span>
+            </div>
+          ))
+        }
+        <button href="#" onClick={nextPage}>Next</button>
+      </nav>
     </>
   );
 }

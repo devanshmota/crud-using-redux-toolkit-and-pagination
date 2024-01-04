@@ -1,5 +1,4 @@
 [
- 
     {"id": 1, "email": "test@gmail.com", "mobile_number": "9824166253"}, 
     {"id": 2,"email": "devansh@gmail.com", "mobile_number": "9725792378"},
     {"id": 3,"email": "test0@gmail.com", "mobile_number": "9824166253"}, 
@@ -14,7 +13,5 @@
     {"id": 12,"email": "test9@gmail.com", "mobile_number": "9824166253"},
     {"id": 13,"email": "test10@gmail.com", "mobile_number": "9824166253"},
     {"id": 14,"email": "test11@gmail.com", "mobile_number": "9824166253"}
-
-
 ]
 

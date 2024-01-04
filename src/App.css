@@ -6,3 +6,20 @@ table{
     border: 1px solid black;
     padding: 5px 15px;
   }
+
+.active{
+ background-color: blue;
+ color: white;
+}
+
+nav{
+  margin-top: 10px;
+}
+
+.number_of_page{
+  display: inline;
+}
+.link{
+  cursor: pointer;
+  padding: 0 10px;
+}
