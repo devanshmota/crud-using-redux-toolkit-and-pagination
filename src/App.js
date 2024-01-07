@@ -39,17 +39,16 @@ function App() {
     const newData = [...data]
     const lastElement = (newData.slice(-1))
     const id = (lastElement[0].id)
-    const newformdata = {...formData, id:id+1}
+    const newformdata = { ...formData, id: id + 1 }
     dispatch(setData([...data, newformdata]))
     setFormData({
       email: '',
       mobile_number: ''
     })
-    console.log(formData)
   }
 
   const Delete = (id) => {
-    let newData = data.filter((item) =>  item.id!== id)
+    let newData = data.filter((item) => item.id !== id)
     dispatch(setData(newData))
   }
 
@@ -61,13 +60,13 @@ function App() {
   }
 
   const prevPage = () => {
-    if(currentPage !== 1){
+    if (currentPage !== 1) {
       setCurrentPage(currentPage - 1)
     }
   }
 
   const nextPage = () => {
-    if(currentPage !== npage){
+    if (currentPage !== npage) {
       setCurrentPage(currentPage + 1)
     }
   }
